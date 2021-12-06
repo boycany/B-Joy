@@ -52,8 +52,54 @@ class App extends Component {
     super()
     this.state = {
       input: '',
-      imageUrl: ''
+      imageUrl: '',
+      box: {}
     }
+  }
+
+  calculateFaceLocation = (data) => {
+    // const clarifaiFace = data.outputs[0].data.regions[0].region_info.bounding_box
+   
+    
+
+    // const image = document.querySelector('#inputImage')
+
+    // const imgWidth = Number(image.width)
+    // const imgHeight = Number(image.height)
+
+    // console.log('data:', data, 'clarifaiFace:', clarifaiFace, 'image:', image)
+    // console.log(imgWidth, imgHeight)
+  
+    // return {
+    //   topRow: clarifaiFace.top_row * imgHeight,
+    //   rightCol: imgWidth - (clarifaiFace.right_col * imgWidth),
+    //   bottomRow: imgHeight - (clarifaiFace.bottom_row * imgHeight),
+    //   leftCol: clarifaiFace.left_col * imgWidth
+    // }
+
+    const faceRegionsArray = data.outputs[0].data.regions
+
+    const image = document.querySelector('#inputImage')
+
+    const imgWidth = Number(image.width)
+    const imgHeight = Number(image.height)
+
+    const boundinboxArray = []
+
+    for(let i=0; i< faceRegionsArray.length;i++){
+        faceRegionsArray[i].region_info.bounding_box.top_row = faceRegionsArray[i].region_info.bounding_box.top_row * imgHeight
+        faceRegionsArray[i].region_info.bounding_box.right_col = imgWidth - (faceRegionsArray[i].region_info.bounding_box.right_col * imgWidth)
+        faceRegionsArray[i].region_info.bounding_box.bottom_row = imgHeight - (faceRegionsArray[i].region_info.bounding_box.bottom_row * imgHeight)
+        faceRegionsArray[i].region_info.bounding_box.left_col = faceRegionsArray[i].region_info.bounding_box.left_col * imgWidth
+        
+        boundinboxArray.push(faceRegionsArray[i].region_info.bounding_box)
+    }
+    // console.log(boundinboxArray)
+    return boundinboxArray
+  }
+
+  displayFaceBox = (boxArray) => {
+    this.setState({box: boxArray})
   }
 
   onInputChange = (event) => {
@@ -96,20 +142,23 @@ class App extends Component {
 
     fetch("https://api.clarifai.com/v2/models/f76196b43bbd45c99b4f3cd8e8b40a8a/outputs", requestOptions)
       .then(response => response.text())
-      .then(result => console.log(JSON.parse(result, null, 2).outputs[0].data.regions[0].region_info.bounding_box))
-      .catch(error => console.log('error', error));
+      // .then(result => console.log(JSON.parse(result, null, 2).outputs[0].data.regions[0].region_info.bounding_box))
+      .then(result => this.calculateFaceLocation(JSON.parse(result, null, 2)))
+      .then(boxArray => this.displayFaceBox(boxArray))
+      .catch(error => console.log('ERROR! There is no face in this picture!', error))
   }
 
   render() {
         return (
             <div className="App">
-                <Particles params={particlesOptions} />
+                <Particles params={particlesOptions}/>
                 <Navigation />
                 <Logo />
                 <Rank />
                 <ImageLinkForm onInputChange={this.onInputChange} onButtonSubmit={this.onButtonSubmit}/>
-                <FaceRecognition imageUrl={this.state.imageUrl} />
+                <FaceRecognition box={this.state.box} imageUrl={this.state.imageUrl} />
             </div>
+            
         );
   }
 
