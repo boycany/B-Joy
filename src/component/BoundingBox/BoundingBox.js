@@ -3,7 +3,7 @@ const BoundingBox = ({box}) => {
     let boxHTML = []
 
     for (let i = 0; i < box.length; i++){
-        console.log(box[i])
+        // console.log(box[i])
 
         boxHTML.push(<div className='bounding-box' key={i}
                     style={{top: box[i].top_row, right: box[i].right_col, 
@@ -11,7 +11,7 @@ const BoundingBox = ({box}) => {
                     ></div>)  
     }
 
-    return <div>{boxHTML}</div>
+    return <div>{ boxHTML }</div>
 
 }
 

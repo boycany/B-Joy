@@ -1,8 +1,8 @@
-const ImageLinkForm = ({onInputChange, onButtonSubmit}) => {
+const ImageLinkForm = ({onInputChange, onPictureSubmit}) => {
     return (
         <div>
             <p className='f3'>
-                {'這個神奇大腦會指出你圖片裡的人臉'}
+                {'＊使用說明：神奇大腦會指出圖片中的人臉'}
             </p>
             <div className='center'>
                 <div className='center pa4 br3 shadow-5' style={{width: '700px'}}>
@@ -11,7 +11,7 @@ const ImageLinkForm = ({onInputChange, onButtonSubmit}) => {
                             placeholder='請貼上連結'
                     />
                     <button className='w-30 grow f4 ml2 link ph3 pv2 dib bg-light-blue' 
-                            onClick={onButtonSubmit}>開始檢測
+                            onClick={onPictureSubmit}>開始檢測
                     </button>
                 </div>
             </div>

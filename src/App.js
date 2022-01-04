@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import Navigation from './component/Navigation/Navigation';
+import SignIn from './component/SignIn/SignIn';
+import Register from './component/Register/Register';
 import Logo from './component/Logo/Logo'
 import ImageLinkForm from './component/ImageLinkForm/ImageLinkForm';
 import FaceRecognition from './component/FaceRecognition/FaceRecognition';
@@ -47,36 +49,76 @@ const particlesOptions = {
     }
 }
 
+const initialState = {
+      input: '',
+      imageUrl: '',
+      box: {},
+      route: 'signin',
+      isSignedIn: false,
+      userLoggedIn: {
+          id: '',
+          name: '',
+          email: '',
+          entries: 0, 
+          joined: ''
+      }
+}
+
 class App extends Component {
   constructor(){
     super()
-    this.state = {
-      input: '',
-      imageUrl: '',
-      box: {}
-    }
+    this.state = initialState   
   }
 
-  calculateFaceLocation = (data) => {
-    // const clarifaiFace = data.outputs[0].data.regions[0].region_info.bounding_box
-   
-    
+  loadUser = (user) => {
+    this.setState({ 
+      userLoggedIn:{
+          id: user.id,
+          name: user.name,
+          email: user.email,
+          entries: user.entries, 
+          joined: user.joined  
+    }})
 
-    // const image = document.querySelector('#inputImage')
+    // console.log(this.state)
+  }
 
-    // const imgWidth = Number(image.width)
-    // const imgHeight = Number(image.height)
-
-    // console.log('data:', data, 'clarifaiFace:', clarifaiFace, 'image:', image)
-    // console.log(imgWidth, imgHeight)
+  /*
   
-    // return {
-    //   topRow: clarifaiFace.top_row * imgHeight,
-    //   rightCol: imgWidth - (clarifaiFace.right_col * imgWidth),
-    //   bottomRow: imgHeight - (clarifaiFace.bottom_row * imgHeight),
-    //   leftCol: clarifaiFace.left_col * imgWidth
-    // }
+  只是拿來確認可以與server連接
+  componentDidMount(){
+    fetch('http://localhost:3000/')
+      .then(response=>response.json())
+      .then(data=>console.log(data))
+  }
+  
+  */
 
+  calculateFaceLocation = (data) => {
+
+    /*
+    
+    只顯示一張人臉的框框
+
+    const clarifaiFace = data.outputs[0].data.regions[0].region_info.bounding_box
+    const image = document.querySelector('#inputImage')
+
+    const imgWidth = Number(image.width)
+    const imgHeight = Number(image.height)
+
+    console.log('data:', data, 'clarifaiFace:', clarifaiFace, 'image:', image)
+    console.log(imgWidth, imgHeight)
+  
+    return {
+      topRow: clarifaiFace.top_row * imgHeight,
+      rightCol: imgWidth - (clarifaiFace.right_col * imgWidth),
+      bottomRow: imgHeight - (clarifaiFace.bottom_row * imgHeight),
+      leftCol: clarifaiFace.left_col * imgWidth
+    }
+    
+    */
+    
+    /* 圖片裡有幾個人臉就顯示幾個框框 */
     const faceRegionsArray = data.outputs[0].data.regions
 
     const image = document.querySelector('#inputImage')
@@ -94,7 +136,7 @@ class App extends Component {
         
         boundinboxArray.push(faceRegionsArray[i].region_info.bounding_box)
     }
-    // console.log(boundinboxArray)
+    // console.log('boxArray:', boundinboxArray)
     return boundinboxArray
   }
 
@@ -103,16 +145,26 @@ class App extends Component {
   }
 
   onInputChange = (event) => {
-    console.log(event.target.value)
+    // console.log(event.target.value)
 
     this.setState({input: event.target.value})
   }
 
-  onButtonSubmit = () => {
+  onRouteChange = (route) => {
+    if (route === 'signout'){
+      this.setState(initialState)
+    } else if (route === 'home') {
+      this.setState({isSignedIn: true})
+    }
+    this.setState({route: route})
+  }
+
+  onPictureSubmit = () => {
     // console.log('click')
 
     this.setState({imageUrl: this.state.input})
 
+    
     const raw = JSON.stringify({
       "user_app_id": {
         "user_id": "yurayurateiko",
@@ -122,7 +174,6 @@ class App extends Component {
         {
           "data": {
             "image": {
-              // "url": "https://samples.clarifai.com/face-det.jpg"
               "url": `${this.state.input}`  
                   //如果這段url的位置寫 this.state.imageUrl ---> 會報錯，因為state運作方式的關係  
             }
@@ -139,29 +190,112 @@ class App extends Component {
       },
       body: raw
     };
+    
 
+    /*
+    fetch("http://localhost:3000/imageurl", {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        }, 
+        body: JSON.stringify({
+            input: this.state.input
+        })
+    })
+    .then(response=>{
+              
+        if(response){
+            fetch("http://localhost:3000/image", {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    id: this.state.userLoggedIn.id,                      
+                })   
+            })
+            .then(response=>response.json())
+            .then(count=>this.setState(Object.assign(this.state.userLoggedIn, {entries: count})))
+            // 如果直接這樣寫的話，會更新整個userLoggedIn物件，導致其他沒有更新到的props顯示為undefined
+            // .then(count=>{
+            //     this.setState({ userLoggedIn: {
+            //         entries: count
+            //     }})
+            // })
+            .catch(err=>console.log(err))
+        }
+        return response.text()
+    })
+    // .then(result => console.log(JSON.parse(result, null, 2).outputs[0].data.regions[0].region_info.bounding_box))
+    .then(result => this.calculateFaceLocation(JSON.parse(result, null, 2)))
+    .then(boxArray => this.displayFaceBox(boxArray))
+    .catch(error => {
+        alert('這張圖無法辨識')
+        console.log('ERROR! There is no face in this picture!', error)
+    })
+    */    
+    
+
+    
     fetch("https://api.clarifai.com/v2/models/f76196b43bbd45c99b4f3cd8e8b40a8a/outputs", requestOptions)
-      .then(response => response.text())
+      .then(response => {
+          
+          if(response){
+              fetch("http://localhost:3000/image", {
+                  method: 'PUT',
+                  headers: {
+                      'Content-Type': 'application/json'
+                  },
+                  body: JSON.stringify({
+                      id: this.state.userLoggedIn.id,                      
+                  })   
+              })
+              .then(response=>response.json())
+              .then(count=>this.setState(Object.assign(this.state.userLoggedIn, {entries: count})))
+              // 如果直接這樣寫的話，會更新整個userLoggedIn物件，導致其他沒有更新到的props顯示為undefined
+              // .then(count=>{
+              //     this.setState({ userLoggedIn: {
+              //         entries: count
+              //     }})
+              // })
+              .catch(err=>console.log(err))
+          }
+          return response.text()
+      })
       // .then(result => console.log(JSON.parse(result, null, 2).outputs[0].data.regions[0].region_info.bounding_box))
       .then(result => this.calculateFaceLocation(JSON.parse(result, null, 2)))
       .then(boxArray => this.displayFaceBox(boxArray))
-      .catch(error => console.log('ERROR! There is no face in this picture!', error))
+      .catch(error => {
+          alert('這張圖無法辨識')
+          console.log('ERROR! There is no face in this picture!', error)
+      })
+    
   }
 
   render() {
-        return (
+        const { imageUrl, box, route, isSignedIn, userLoggedIn } = this.state
+
+        return (            
             <div className="App">
                 <Particles params={particlesOptions}/>
-                <Navigation />
-                <Logo />
-                <Rank />
-                <ImageLinkForm onInputChange={this.onInputChange} onButtonSubmit={this.onButtonSubmit}/>
-                <FaceRecognition box={this.state.box} imageUrl={this.state.imageUrl} />
-            </div>
-            
+                <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn}/>
+                { 
+                  route === 'home' 
+                  ? <div> 
+                      <Logo />
+                      <Rank userName={userLoggedIn.name} userEntries={userLoggedIn.entries}/>
+                      <ImageLinkForm onInputChange={this.onInputChange} onPictureSubmit={this.onPictureSubmit}/>
+                      <FaceRecognition box={box} imageUrl={imageUrl} />
+                    </div>
+                  : (
+                      route === 'signin'
+                      ? <SignIn loadUser={this.loadUser} onRouteChange={this.onRouteChange}/>
+                      : <Register loadUser={this.loadUser} onRouteChange={this.onRouteChange} />
+                    )   
+                }
+            </div>            
         );
   }
-
 }
 
 export default App;
