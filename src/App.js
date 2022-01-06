@@ -79,8 +79,6 @@ class App extends Component {
           entries: user.entries, 
           joined: user.joined  
     }})
-
-    // console.log(this.state)
   }
 
   /*
@@ -164,35 +162,6 @@ class App extends Component {
 
     this.setState({imageUrl: this.state.input})
 
-  /*  
-    const raw = JSON.stringify({
-      "user_app_id": {
-        "user_id": "yurayurateiko",
-        "app_id": "3a7ed23aacbd41269cf7d083a49be859"
-      },
-      "inputs": [
-        {
-          "data": {
-            "image": {
-              "url": `${this.state.input}`  
-                  //如果這段url的位置寫 this.state.imageUrl ---> 會報錯，因為state運作方式的關係  
-            }
-          }
-        }
-      ]
-    });
-
-    const requestOptions = {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Authorization': 'Key dd9a3a245dcc490da87b4a90a2e91cf6'
-      },
-      body: raw
-    };
-    
-    */
-    
     fetch("http://localhost:3000/imageurl", {
         method: 'POST',
         headers: {
@@ -227,14 +196,11 @@ class App extends Component {
             //     }})
             // })
             .catch(err=>console.log(err))
-        }
-        // console.log('imageurl:', response)            
+        }         
         return response.json()
     })
     // .then(result => console.log(JSON.parse(result, null, 2).outputs[0].data.regions[0].region_info.bounding_box))
-    .then(result => {
-        // console.log('result:', result)
-               
+    .then(result => {               
         return this.calculateFaceLocation(result)
     })
     .then(boxArray => this.displayFaceBox(boxArray))
@@ -242,42 +208,6 @@ class App extends Component {
         alert('這張圖無法辨識')
         console.log('ERROR! There is no face in this picture!', error)
     })   
-    
-
-    /*
-    fetch("https://api.clarifai.com/v2/models/f76196b43bbd45c99b4f3cd8e8b40a8a/outputs", requestOptions)
-      .then(response => {
-          
-          if(response){
-              fetch("http://localhost:3000/image", {
-                  method: 'PUT',
-                  headers: {
-                      'Content-Type': 'application/json'
-                  },
-                  body: JSON.stringify({
-                      id: this.state.userLoggedIn.id,                      
-                  })   
-              })
-              .then(response=>response.json())
-              .then(count=>this.setState(Object.assign(this.state.userLoggedIn, {entries: count})))
-              // 如果直接這樣寫的話，會更新整個userLoggedIn物件，導致其他沒有更新到的props顯示為undefined
-              // .then(count=>{
-              //     this.setState({ userLoggedIn: {
-              //         entries: count
-              //     }})
-              // })
-              .catch(err=>console.log(err))
-          }
-          return response.text()
-      })
-      // .then(result => console.log(JSON.parse(result, null, 2).outputs[0].data.regions[0].region_info.bounding_box))
-      .then(result => this.calculateFaceLocation(JSON.parse(result, null, 2)))
-      .then(boxArray => this.displayFaceBox(boxArray))
-      .catch(error => {
-          alert('這張圖無法辨識')
-          console.log('ERROR! There is no face in this picture!', error)
-      })
-    */
   }
 
   render() {
