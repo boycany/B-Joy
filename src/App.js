@@ -158,7 +158,6 @@ class App extends Component {
   }
 
   onPictureSubmit = () => {
-    // console.log('click')
 
     this.setState({imageUrl: this.state.input})
 
@@ -171,9 +170,16 @@ class App extends Component {
             input: this.state.input
         })
     })
-    .then(response=>{
-        
-        if(response){
+    .then(response=>{ 
+        return response.json()
+    })
+    // .then(result => console.log(JSON.parse(result, null, 2).outputs[0].data.regions[0].region_info.bounding_box))
+    .then(result => {               
+        return this.calculateFaceLocation(result)
+    })
+    .then(boxArray => {
+
+        if(boxArray){
             fetch("https://secret-citadel-52458.herokuapp.com/image", {
                 method: 'PUT',
                 headers: {
@@ -197,13 +203,8 @@ class App extends Component {
             // })
             .catch(err=>console.log(err))
         }         
-        return response.json()
+        return this.displayFaceBox(boxArray)
     })
-    // .then(result => console.log(JSON.parse(result, null, 2).outputs[0].data.regions[0].region_info.bounding_box))
-    .then(result => {               
-        return this.calculateFaceLocation(result)
-    })
-    .then(boxArray => this.displayFaceBox(boxArray))
     .catch(error => {
         alert('這張圖無法辨識')
         console.log('ERROR! There is no face in this picture!', error)
