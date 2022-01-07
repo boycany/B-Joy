@@ -174,13 +174,15 @@ class App extends Component {
         return response.json()
     })
     // .then(result => console.log(JSON.parse(result, null, 2).outputs[0].data.regions[0].region_info.bounding_box))
-    .then(result => {               
-        return this.calculateFaceLocation(result)
-    })
-    .then(boxArray => {
-
-        if(boxArray){
-            fetch("https://secret-citadel-52458.herokuapp.com/image", {
+    .then(result => {   
+        // console.log(result.outputs[0].data) 
+        
+        // 如果圖片無法辨識出人臉，就會reset box的狀態，避免前一張圖片的box樣式殘留在畫面。
+        // 若能辨識出人臉，使用者登錄的次數就更新至後端加1
+        if (!result.outputs[0].data.regions){
+            this.setState({ box: {} })
+        } else {
+             fetch("https://secret-citadel-52458.herokuapp.com/image", {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
@@ -202,7 +204,10 @@ class App extends Component {
             //     }})
             // })
             .catch(err=>console.log(err))
-        }         
+        }        
+        return this.calculateFaceLocation(result)
+    })
+    .then(boxArray => {
         return this.displayFaceBox(boxArray)
     })
     .catch(error => {
