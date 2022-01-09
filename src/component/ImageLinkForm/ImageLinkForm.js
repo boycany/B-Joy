@@ -1,17 +1,21 @@
 const ImageLinkForm = ({onInputChange, onPictureSubmit}) => {
     return (
         <div>
-            <p className='f3'>
-                {'＊使用說明：神奇大腦會指出圖片中的人臉'}
-            </p>
+            <div className='f5'>
+                {/* {'＊使用說明：神奇大腦會指出圖片中的人臉'} */}
+                <p className="underline">{`＊使用說明：`}</p>
+                <p>{`神奇大腦喜歡蒐集有人臉的圖片，它在等待你的餵食。`}</p>
+                <p>{`一點一滴地吸取養分之後，究竟會長成怎麼樣呢？`}</p>
+                <p>{`來試試看吧！`}</p>
+            </div>
             <div className='center'>
                 <div className='center pa4 br3 shadow-5' style={{width: '700px'}}>
                     <input type='text' className='f4 pa2 w-70 center' 
                             onChange={onInputChange}
-                            placeholder='請貼上連結'
+                            placeholder='請餵食圖片連結'
                     />
                     <button className='w-30 grow f4 ml2 link ph3 pv2 dib bg-light-blue' 
-                            onClick={onPictureSubmit}>開始檢測
+                            onClick={onPictureSubmit}>傳送
                     </button>
                 </div>
             </div>
