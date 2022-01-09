@@ -1,7 +1,7 @@
 const ImageLinkForm = ({onInputChange, onPictureSubmit}) => {
     return (
         <div>
-            <div className='f5'>
+            <div className='f6'>
                 {/* {'＊使用說明：神奇大腦會指出圖片中的人臉'} */}
                 <p className="underline">{`＊使用說明：`}</p>
                 <p>{`神奇大腦喜歡蒐集有人臉的圖片，它在等待你的餵食。`}</p>
