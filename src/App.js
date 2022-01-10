@@ -9,6 +9,7 @@ import Rank from './component/Rank/Rank';
 import './App.css';
 import Particles from "react-tsparticles" 
 
+// 背景
 const particlesOptions = {
     particles: {
           color: {
@@ -92,6 +93,8 @@ class App extends Component {
   
   */
 
+
+  //取得從clarifai api獲取的資料，計算出人臉框框的位置
   calculateFaceLocation = (data) => {
 
     /*
@@ -157,6 +160,8 @@ class App extends Component {
     this.setState({route: route})
   }
 
+  //使用者執行傳送圖片後的動作，先執行一個POST request至server，
+  //從後端對Clarifai api送出請求，再從後端將response傳回前端
   onPictureSubmit = () => {
 
     this.setState({imageUrl: this.state.input})
@@ -173,7 +178,6 @@ class App extends Component {
     .then(response=>{ 
         return response.json()
     })
-    // .then(result => console.log(JSON.parse(result, null, 2).outputs[0].data.regions[0].region_info.bounding_box))
     .then(result => {   
         // console.log(result.outputs[0].data) 
         
