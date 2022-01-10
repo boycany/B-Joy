@@ -8,6 +8,7 @@ import FaceRecognition from './component/FaceRecognition/FaceRecognition';
 import Rank from './component/Rank/Rank';
 import './App.css';
 import Particles from "react-tsparticles" 
+import 'animate.css';
 
 // 背景
 const particlesOptions = {
