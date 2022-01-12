@@ -51,6 +51,7 @@ const particlesOptions = {
     }
 }
 
+//初始化State 
 const initialState = {
       input: '',
       imageUrl: '',
@@ -231,7 +232,7 @@ class App extends Component {
                 { 
                   route === 'home' 
                   ? <div> 
-                      <Logo />
+                      <Logo userEntries={userLoggedIn.entries}/>
                       <Rank userName={userLoggedIn.name} userEntries={userLoggedIn.entries}/>
                       <ImageLinkForm onInputChange={this.onInputChange} onPictureSubmit={this.onPictureSubmit}/>
                       <FaceRecognition box={box} imageUrl={imageUrl} />

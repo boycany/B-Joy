@@ -52,7 +52,7 @@ class SignIn extends Component {
         return (
             <div>
                 {/* <h1 class="animate__animated animate__bounce f1 lh-title">B-JOY</h1> */}
-                <div class="wrapper">
+                <div className="wrapper">
                     <span>B</span>
                     <span>-</span>
                     <span>J</span>
