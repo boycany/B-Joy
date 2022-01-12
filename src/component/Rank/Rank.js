@@ -1,5 +1,4 @@
 const Rank = ({userName, userEntries}) => {
-    console.log(userEntries)
     return (
         <div>
             <div className='f3 mb2'>   

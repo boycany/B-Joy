@@ -4,7 +4,6 @@ import Bjoy from './B-Joy1.png'
 import Bjoy2 from './B-Joy2.png'
 
 const Logo = ({ userEntries }) => {
-    console.log(userEntries)
     
     return (
         <div className="ma4 mt0 center">
