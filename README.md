@@ -1,10 +1,6 @@
 # B-Joy 喜悅怪獸  
 
 [Demo](https://magical-face-recognition-brain.herokuapp.com/) 
-## 作品畫面
-
-![B-Joy](https://drive.google.com/file/d/1Raw-sMAEySZZWSX94LEHvM8u0NLJOSiZ/view?usp=sharing)
-![B-Joy](https://drive.google.com/file/d/1gTa_JPadCnMG-1zyOUH4b5JTN3bofK2S/view?usp=sharing)
 ## 作品說明
 
 串接 Clarifai 公司提供的人臉辨識 API
