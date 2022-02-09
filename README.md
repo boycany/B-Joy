@@ -9,8 +9,8 @@
 讀取使用者輸入的圖片網址，秀出圖片並標示出人臉位置。
 ## 系統說明
 
-前端：React
-後端：Ｎode.js/Express.js/Knex.js/PostgreSQL
+前端：React <br>
+後端：Ｎode.js/Express.js/Knex.js/PostgreSQL <br>
 專案部署於 Heroku 平台
 
 * React 版本 `v17.0.2`
