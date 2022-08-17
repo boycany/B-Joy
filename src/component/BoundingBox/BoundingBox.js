@@ -2,8 +2,6 @@ const BoundingBox = ({ box }) => {
   let boxHTML = [];
 
   for (let i = 0; i < box.length; i++) {
-    console.log("box[i]:>>", box[i]);
-
     boxHTML.push(
       <div
         className="bounding-box"

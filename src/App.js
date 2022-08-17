@@ -147,8 +147,6 @@ class App extends Component {
         return response.json();
       })
       .then((result) => {
-        console.log(result);
-
         // 如果圖片無法辨識出人臉，就會reset box的狀態，避免前一張圖片的box樣式殘留在畫面。
         // 若能辨識出人臉，使用者登錄的次數就更新至後端加1
         if (!result.outputs[0].data.regions) {
