@@ -1,18 +1,24 @@
-const BoundingBox = ({box}) => {
+const BoundingBox = ({ box }) => {
+  let boxHTML = [];
 
-    let boxHTML = []
+  for (let i = 0; i < box.length; i++) {
+    console.log("box[i]:>>", box[i]);
 
-    for (let i = 0; i < box.length; i++){
-        // console.log(box[i])
+    boxHTML.push(
+      <div
+        className="bounding-box"
+        key={i}
+        style={{
+          top: box[i].top_row,
+          right: box[i].right_col,
+          bottom: box[i].bottom_row,
+          left: box[i].left_col,
+        }}
+      ></div>
+    );
+  }
 
-        boxHTML.push(<div className='bounding-box' key={i}
-                    style={{top: box[i].top_row, right: box[i].right_col, 
-                        bottom: box[i].bottom_row, left: box[i].left_col}}
-                    ></div>)  
-    }
+  return <div>{boxHTML}</div>;
+};
 
-    return <div>{ boxHTML }</div>
-
-}
-
-export default BoundingBox
+export default BoundingBox;

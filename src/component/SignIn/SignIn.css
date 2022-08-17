@@ -1,63 +1,63 @@
 @import url("https://fonts.googleapis.com/css2?family=Titan+One&display=swap");
 
 .wrapper {
-    width: 100vw;
-    text-align: center;
+  width: 100vw;
+  text-align: center;
 }
 
 .wrapper span {
-    -webkit-text-stroke-width: 1.25px;
-    -webkit-text-stroke-color: #000;
-    font-size: 40px;
-    text-shadow: 0 0px #f3c623, 0 0px #f2aaaa;
-    transform: translate(0, 20%) rotate(4deg);
-    animation: jump 2s ease-in-out;
-    display: inline-block;
-    font-family: "Titan One", cursive;
-    color: lightblue;
+  -webkit-text-stroke-width: 1.25px;
+  -webkit-text-stroke-color: #000;
+  font-size: 40px;
+  text-shadow: 0 0px #f3c623, 0 0px #f2aaaa;
+  transform: translate(0, 20%) rotate(4deg);
+  animation: jump 2s ease-in-out;
+  display: inline-block;
+  font-family: "Titan One", cursive;
+  color: lightblue;
 }
 
 .wrapper span:nth-child(1) {
-    animation-delay: 120ms;
+  animation-delay: 120ms;
 }
 
 .wrapper span:nth-child(2) {
-    animation-delay: 240ms;
+  animation-delay: 240ms;
 }
 
 .wrapper span:nth-child(3) {
-    animation-delay: 360ms;
+  animation-delay: 360ms;
 }
 
 .wrapper span:nth-child(4) {
-    animation-delay: 480ms;
+  animation-delay: 480ms;
 }
 
 .wrapper span:nth-child(5) {
-    animation-delay: 600ms;
+  animation-delay: 600ms;
 }
 
 .wrapper span:nth-child(6) {
-    animation-delay: 720ms;
+  animation-delay: 720ms;
 }
 
 .wrapper span:nth-child(7) {
-    animation-delay: 840ms;
+  animation-delay: 840ms;
 }
 
 @keyframes jump {
-    33% {
-        text-shadow: 0 20px #f37121, 0 50px #f2aaaa;
-    }
+  33% {
+    text-shadow: 0 20px #f37121, 0 50px #f2aaaa;
+  }
 
-    50% {
-        transform: translate(0, 0) rotate(-4deg);
-        text-shadow: 0 0px #8fc0a9, 0 0px #84a9ac;
-    }
+  50% {
+    transform: translate(0, 0) rotate(-4deg);
+    text-shadow: 0 0px #8fc0a9, 0 0px #84a9ac;
+  }
 
-    66.67% {
-        text-shadow: 0 -20px #d54062, 0 -50px #8fc0a9;
-    }
+  66.67% {
+    text-shadow: 0 -20px #d54062, 0 -50px #8fc0a9;
+  }
 }
 
 /* html {
@@ -78,13 +78,13 @@ body {
 } */
 
 @media screen and (max-height: 200px) {
-    .wrapper {
-        transform: scale(0.3, 0.3);
-    }
+  .wrapper {
+    transform: scale(0.3, 0.3);
+  }
 }
 
 @media screen and (max-width: 576px) {
-    .wrapper span {
-        font-size: 50px;
-    }
+  .wrapper span {
+    font-size: 50px;
+  }
 }
