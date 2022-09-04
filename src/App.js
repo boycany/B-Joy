@@ -9,6 +9,7 @@ import Rank from "./component/Rank/Rank";
 import "./App.css";
 import Particles from "react-tsparticles";
 import "animate.css";
+import Modal from "./component/Modal/Modal";
 
 // 背景
 const particlesOptions = {
@@ -65,6 +66,9 @@ const initialState = {
     entries: 0,
     joined: "",
   },
+  isLoading: false,
+  isGrowUp: false,
+  isError: false,
 };
 
 class App extends Component {
@@ -129,6 +133,18 @@ class App extends Component {
     this.setState({ route: route });
   };
 
+  handleLoadingModal = () => {
+    this.setState({ isLoading: !this.state.isLoading });
+  };
+
+  closeGrowUpModal = () => {
+    this.setState({ isGrowUp: false });
+  };
+
+  closeErrorModal = () => {
+    this.setState({ isError: null });
+  };
+
   //使用者執行傳送圖片後的動作，先執行一個POST request至server，
   //從後端對Clarifai api送出請求，再從後端將response傳回前端
   onPictureSubmit = () => {
@@ -165,11 +181,17 @@ class App extends Component {
               return imageRes.json();
             })
             .then((count) => {
+              if (count === "3") {
+                this.setState({ isGrowUp: true });
+              }
               return this.setState(
                 Object.assign(this.state.userLoggedIn, { entries: count })
               );
             })
-            .catch((err) => console.log(err));
+            .catch((err) => {
+              this.setState({ isError: err });
+              console.log(err);
+            });
         }
         return this.calculateFaceLocation(result);
       })
@@ -183,10 +205,28 @@ class App extends Component {
   };
 
   render() {
-    const { imageUrl, box, route, isSignedIn, userLoggedIn } = this.state;
+    const {
+      imageUrl,
+      box,
+      route,
+      isSignedIn,
+      userLoggedIn,
+      isLoading,
+      isGrowUp,
+      isError,
+    } = this.state;
 
     return (
       <div className="App">
+        {(isLoading || isGrowUp || isError) && (
+          <Modal
+            isLoading={isLoading}
+            isGrowUp={isGrowUp}
+            isError={isError}
+            closeGrowUpModal={this.closeGrowUpModal}
+            closeErrorModal={this.closeErrorModal}
+          />
+        )}
         <Particles params={particlesOptions} />
         <Navigation
           onRouteChange={this.onRouteChange}
@@ -206,11 +246,16 @@ class App extends Component {
             <FaceRecognition box={box} imageUrl={imageUrl} />
           </div>
         ) : route === "signin" ? (
-          <SignIn loadUser={this.loadUser} onRouteChange={this.onRouteChange} />
+          <SignIn
+            loadUser={this.loadUser}
+            onRouteChange={this.onRouteChange}
+            handleLoadingModal={this.handleLoadingModal}
+          />
         ) : (
           <Register
             loadUser={this.loadUser}
             onRouteChange={this.onRouteChange}
+            handleLoadingModal={this.handleLoadingModal}
           />
         )}
       </div>

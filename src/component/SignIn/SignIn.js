@@ -18,6 +18,7 @@ class SignIn extends Component {
   };
 
   onSubmitChange = () => {
+    this.props.handleLoadingModal();
     fetch("https://secret-citadel-52458.herokuapp.com/signin", {
       method: "POST",
       headers: {
@@ -33,7 +34,9 @@ class SignIn extends Component {
         if (user.id) {
           this.props.loadUser(user);
           this.props.onRouteChange("home");
+          this.props.handleLoadingModal();
         } else {
+          this.props.handleLoadingModal();
           alert("使用者帳號或密碼有誤");
         }
       })
@@ -85,7 +88,7 @@ class SignIn extends Component {
               <div className="">
                 <input
                   onClick={this.onSubmitChange}
-                  className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib"
+                  className="b ph3 pv2 input-reset ba b--black bg-transparent pointer f6 dib"
                   type="submit"
                   value="送出"
                 />

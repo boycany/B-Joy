@@ -3,9 +3,21 @@ const ImageLinkForm = ({ onInputChange, onPictureSubmit }) => {
     <div>
       <div className="f6">
         <p className="underline">{`＊使用說明：`}</p>
-        <p>{`B-Joy喜歡蒐集人臉微笑的圖片，它在等待你的餵食。`}</p>
+        <p>{`B-Joy喜歡蒐集人臉微笑的圖片，它在等待您的餵食。`}</p>
         <p>{`一點一滴地吸取喜悅的養分後，究竟會長成怎麼樣呢？`}</p>
-        <p>{`來試試看吧！`}</p>
+        <p>{`趕快來試試看吧！`}</p>
+        <p>
+          "請到專屬為您打造的
+          <a
+            href="https://boycany.github.io/photo-website/"
+            target="_blank"
+            rel="noreferrer"
+          >
+            {" "}
+            圖片搜尋網站{" "}
+          </a>
+          輸入關鍵字 smile"
+        </p>
       </div>
       <div className="center">
         <div className="center pa4 br3 shadow-5" style={{ width: "700px" }}>
